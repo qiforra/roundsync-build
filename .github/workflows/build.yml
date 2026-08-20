@@ -1,7 +1,7 @@
 name: Build Custom RoundSync
 
 on:
-  workflow_dispatch: # Memungkinkan kamu menjalankan build secara manual melalui tombol
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,13 +16,11 @@ jobs:
           RCLONE_REPO: "https://github.com/gulp79/rclone-extra.git"
           RCLONE_BRANCH: "master"
           BUILD_NAME: "RoundSync-Extra"
- run: |
-          # Menjalankan docker compose menggunakan konfigurasi yang ada di repo
+        run: |
           docker compose up --build
           
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: RoundSync-Extra-APK
-          # Mengambil file APK yang dihasilkan oleh build.sh dan ditaruh di folder output
           path: output/RoundSync-Extra/*.apk
