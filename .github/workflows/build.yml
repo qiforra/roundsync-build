@@ -16,9 +16,9 @@ jobs:
           RCLONE_REPO: "https://github.com/gulp79/rclone-extra.git"
           RCLONE_BRANCH: "master"
           BUILD_NAME: "RoundSync-Extra"
-        run: |
-          # Menjalankan docker-compose menggunakan konfigurasi yang ada di repo
-          docker-compose up --build
+ run: |
+          # Menjalankan docker compose menggunakan konfigurasi yang ada di repo
+          docker compose up --build
           
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
