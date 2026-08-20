@@ -11,21 +11,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Build and Run via Docker
+      - name: Build via Makefile
         run: |
-          # 1. Rakit image docker dari Dockerfile
-          docker build -t roundsync-builder .
+          # Mengeksekusi Make target 'build' dengan variabel kustom
+          make build \
+            RCLONE_REPO="https://github.com/gulp79/rclone-extra.git" \
+            RCLONE_BRANCH="master" \
+            BUILD_NAME="RoundSync-Extra"
           
-          # 2. Jalankan container dan paksa masukkan variabelnya menggunakan flag -e
-          docker run --rm \
-            -e RCLONE_REPO="https://github.com/gulp79/rclone-extra.git" \
-            -e RCLONE_BRANCH="master" \
-            -e BUILD_NAME="RoundSync-Extra" \
-            -v ${{ github.workspace }}/output:/host_mount/output \
-            roundsync-builder
-          
-      - name: Upload APK Artifact
+      - name: Upload APK Artifact (Hanya arm64)
         uses: actions/upload-artifact@v4
         with:
           name: RoundSync-Extra-APK
-          path: output/RoundSync-Extra/*.apk
+          # Memfilter agar hanya APK untuk HP modern yang diupload
+          path: output/RoundSync-Extra/*arm64-v8a*.apk
